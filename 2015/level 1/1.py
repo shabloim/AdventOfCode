@@ -15,17 +15,17 @@ For example:
 with open('input.txt', 'r') as file:
     lines = file.readlines()
 
-# part 1
-# for i in lines:
-#     up = 0 # "( means go up one floor"
-#     down = 0 # ") means go down one floor"
-#     for j in i:
-#         if j == "(":
-#             up += 1
-#         else:
-#             down -= 1
+part 1
+for i in lines:
+    up = 0 # "( means go up one floor"
+    down = 0 # ") means go down one floor"
+    for j in i:
+        if j == "(":
+            up += 1
+        else:
+            down -= 1
 
-#     print(up + down)
+    print(up + down)
 
 # part 2
 for i in lines:
