@@ -9,7 +9,6 @@ action: turn on, turn off, toggle
 coordinate: (0,0), (999, 999) {start and destination}
 """
 
-
 # print(lines)
 new_lines = []
 for i in lines:
@@ -28,40 +27,82 @@ for i in lines:
 
 
 """
-new new_lines list contains lists which contain action, starting coordinates and destination coordinates
+new_lines list contains lists of action, starting coordinates and destination coordinates
 like so: [['turn on', ['0', '0'], ['999', '999']], ['toggle', ['0', '0'], ['999', '0']], ['turn off', ['499', '499'], ['500', '500']]]
 hopefully this makes it easier to navigate 
 """
 
-grid = [[0 for _ in range(1000)] for _ in range(1000)]
 
-for i in new_lines:
-    action = i[0]
-    x1 = int(i[1][0])
-    y1 = int(i[1][1])
-    x2 = int(i[2][0])
-    y2 = int(i[2][1])
 
-    # x1, x2 = min(x1, x2), max(x1, x2)
-    # y1, y2 = min(y1, y2), max(y1, y2)
-    if action == "turn on":
-        # print(action, (x1, y1), (x2, y2))
-        for i in range(y1, y2+1):
-            for j in range(x1, x2+1):
-                grid[i][j] = 1
-    elif action == "toggle":
-        # print(action, (x1, y1), (x2, y2))
-        for i in range(y1, y2+1):
-            for j in range(x1, x2+1):
-                grid[i][j] ^= 1
-    elif action == "turn off":
-        # print(action, (x1, y1), (x2, y2))
-        for i in range(y1, y2+1):
-            for j in range(x1, x2+1):
-                grid[i][j] = 0
-lit = 0
-for i in range(len(grid)):
-    for j in range(len(grid[i])):
-        if grid[i][j] == 1:
-            lit += 1
-print(f"number of lights lit: {lit}")
+def part1():
+    grid = [[0 for _ in range(1000)] for _ in range(1000)] # initialize a 1000x1000 grid filled with 0s
+    for i in new_lines:
+        action = i[0]
+        x1 = int(i[1][0])
+        y1 = int(i[1][1])
+        x2 = int(i[2][0])
+        y2 = int(i[2][1])
+
+        # x1, x2 = min(x1, x2), max(x1, x2)
+        # y1, y2 = min(y1, y2), max(y1, y2)
+        if action == "turn on":
+            # print(action, (x1, y1), (x2, y2))
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    grid[i][j] = 1
+        elif action == "toggle":
+            # print(action, (x1, y1), (x2, y2))
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    grid[i][j] ^= 1
+        elif action == "turn off":
+            # print(action, (x1, y1), (x2, y2))
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    grid[i][j] = 0
+    lit = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] == 1:
+                lit += 1
+    print(f"number of lights lit: {lit}")
+
+# part1()
+
+def part2():
+    grid = [[0 for _ in range(1000)] for _ in range(1000)] # initialize a 1000x1000 grid filled with 0s
+    total_brightness = 0
+    for i in new_lines:
+        action = i[0]
+        x1 = int(i[1][0])
+        y1 = int(i[1][1])
+        x2 = int(i[2][0])
+        y2 = int(i[2][1])
+        # print(x1, y1, x2, y2)
+
+        if action == "turn on": # increase brightness by 1
+            # print(action, (x1, y1), (x2, y2))
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    grid[i][j] += 1
+
+        elif action == "toggle": # increase brightness of lights by 2
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    grid[i][j] += 2
+
+        elif action == "turn off": # decrease brightness by 1, to a minimum of 0
+            for i in range(y1, y2+1):
+                for j in range(x1, x2+1):
+                    if grid[i][j] != 0:
+                        grid[i][j] -= 1
+                        
+
+    for row in grid:
+        for brightness in row:
+            total_brightness += brightness
+
+    print(f"total brightness: {total_brightness}")
+part2()
+
+
